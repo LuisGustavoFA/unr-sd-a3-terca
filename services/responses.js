@@ -6,7 +6,7 @@ const responsesService = {
     },
 
     createUnAuthResponse() {
-        return new Response(403, undefined, "Não Autorizado");
+        return new Response(403, undefined, "Não Autorizado. Verifique se está logado.");
     },
 
     createCreatedResponse() {
@@ -16,6 +16,6 @@ const responsesService = {
 
     createUnProcessableResponse(msg) {
         return new Response(422, undefined, msg); 
-    }
+    }, 
 }
 export default responsesService;

@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
 const firebaseAuthService = {
     criarUsuarioComEmailSenha(email, password) {
@@ -26,6 +26,24 @@ const firebaseAuthService = {
         });
         });
     },
+
+    verificarUsuarioLogado() {
+        const auth = getAuth();
+        return new Promise((resolve) => {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    resolve(user);
+                } else {
+                    resolve(null);
+                }
+            });
+        });
+    },
+
+    logOutUsuarioLogado() {
+        const auth = getAuth();
+        return signOut(auth);
+    }
 }
 
 export default firebaseAuthService;

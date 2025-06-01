@@ -31,7 +31,19 @@ const usersController = {
                     }
                 )
         })
-    }
+    },
+
+    fazerLogoutFirebase() {
+        return new Promise((resolve, reject) => {
+            firebaseAuthService.logOutUsuarioLogado()
+                .then(() => {
+                    resolve({ message: "Logout realizado com sucesso" });
+                })
+                .catch((erro) => {
+                    reject(erro);
+                })
+        })
+    },
 }
 
 export default usersController
