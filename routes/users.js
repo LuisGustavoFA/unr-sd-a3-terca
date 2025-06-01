@@ -1,9 +1,23 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
+import usersController from '../controllers/usersController.js';
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.post('/', function(req, res, next) {
+  usersController.criarUsuarioFirebase(req.body.email, req.body.password)
+    .then((resposta) => res.status(201).send(resposta))
+    .catch((erro) => res.status(500).send(erro))
 });
 
-module.exports = router;
+router.post('/login', function(req, res, next) {
+  usersController.fazerLoginFirebase(req.body.email, req.body.password)
+    .then((resposta) => res.status(200).send(resposta))
+    .catch((erro) => res.status(401).send(erro))
+});
+
+router.post('/logout', function(req, res, next) {
+  usersController.fazerLogoutFirebase()
+    .then((resposta) => res.status(200).send(resposta))
+    .catch((erro) => res.status(500).send(erro));
+});
+
+export default router;
