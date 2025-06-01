@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import cors from 'cors';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -13,6 +14,10 @@ import clientesRouter from './routes/clientes.js';
 import usersRouter from './routes/users.js';
 
 var app = express();
+
+// app.use(cors({
+//     origin: 'http://localhost:5173'
+// }));
 
 app.use(logger('dev'));
 app.use(express.json());
