@@ -9,8 +9,8 @@ router.get('/', async function(req, res, next) {
 });
 
 router.post('/', async function(req, res, next) {
-  await clientesController.addCliente(req.body);
-  res.json({"response": "criado com sucesso..."})
+  let response = await clientesController.addCliente(req.body);
+  res.status(response.code).json(response.payload);
 });
 
 export default router;

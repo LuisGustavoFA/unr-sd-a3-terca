@@ -2,25 +2,28 @@ import firebaseApp from "./firebaseApp.js";
 import { collection, query, where, doc, getDocs, setDoc, getFirestore } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
-const clientesCollection = collection(db, 'clientes');
+
+function getCollection(dbname) {
+    return collection(db, dbname);
+}
 
 const firestoreServices = {
-    async getAllClientes() {
+    async getAllFromDB(dbname) {
         const result = [];
-        const q = query(clientesCollection);
+        const q = query(getCollection(dbname));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
             let d = doc.data();
             d.id = doc.id;
             result.push(d);
         });
+        // result.sort((a, b) => a.id.localeCompare(b.id));
         return result;
     },
 
-    async addCliente(body) {
-        const docRef = doc(clientesCollection);
+    async addToDB(body, dbname) {
+        const docRef = doc(getCollection(dbname));
         await setDoc(docRef, body);
     }
 }
