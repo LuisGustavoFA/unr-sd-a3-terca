@@ -15,9 +15,9 @@ import usersRouter from './routes/users.js';
 
 var app = express();
 
-// app.use(cors({
-//     origin: 'http://localhost:5173'
-// }));
+app.use(cors({
+    origin: 'http://localhost:9000'
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
