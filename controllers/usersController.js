@@ -22,7 +22,14 @@ const usersController = {
             firebaseAuthService.loginUsuarioComEmailSenha(email, password)
                 .then(
                     (credencial) => {
-                        resolve(credencial);
+                        let payload = {
+                            user: credencial.user.uid,
+                            email: credencial.user.email,
+                            level: 2
+                        }
+                        firebaseAuthService.createJWT(payload)
+                        .then((jwt) => {resolve(jwt)})
+                        .catch((error) => {reject(error)})
                     }
                 )
                 .catch(
