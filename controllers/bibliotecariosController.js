@@ -2,20 +2,20 @@ import firestoreServices from '../services/firestore.js';
 import responsesService from '../services/responses.js';
 import firebaseAuthService from '../services/fireauth.js';
 
-const dbname = "clientes";
+const dbname = "bibliotecarios";
 
-const clientesController = {
-    async getAllClientes() {
+const bibliotecariosController = {
+    async getAllBibliotecarios() {
         const user = await firebaseAuthService.verificarUsuarioLogado();
         if (user) {
-            let clientes = await firestoreServices.getAllFromDB(dbname);
-            return responsesService.createOkResponse(clientes);
+            let bibliotecarios = await firestoreServices.getAllFromDB(dbname);
+            return responsesService.createOkResponse(bibliotecarios);
         } else {
             return responsesService.createUnAuthResponse();
         }
     },
 
-    async addCliente(body) {
+    async addBibliotecario(body) {
         const user = await firebaseAuthService.verificarUsuarioLogado();
         if (user) {
             await firestoreServices.addToDB(body, dbname);
@@ -26,4 +26,4 @@ const clientesController = {
     },
 }
 
-export default clientesController;
+export default bibliotecariosController;

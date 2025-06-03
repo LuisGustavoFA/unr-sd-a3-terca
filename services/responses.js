@@ -1,12 +1,16 @@
 import Response from "../models/Response.js";
 
+const unAuthError = {
+    response: "Não Autorizado. Verifique se está logado."
+}
+
 const responsesService = {
     createOkResponse(payload) {
         return new Response(200, payload, "OK");
     },
 
     createUnAuthResponse() {
-        return new Response(403, undefined, "Não Autorizado. Verifique se está logado.");
+        return new Response(403, unAuthError, "Não Autorizado");
     },
 
     createCreatedResponse() {
