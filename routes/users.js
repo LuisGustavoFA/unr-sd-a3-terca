@@ -14,10 +14,4 @@ router.post('/login', function(req, res, next) {
     .catch((erro) => res.status(401).send(erro))
 });
 
-router.post('/logout', function(req, res, next) {
-  usersController.fazerLogoutFirebase()
-    .then((resposta) => res.status(200).send(resposta))
-    .catch((erro) => res.status(500).send(erro));
-});
-
 export default router;

@@ -5,24 +5,32 @@ import firebaseAuthService from '../services/fireauth.js';
 const dbname = "bibliotecarios";
 
 const bibliotecariosController = {
-    async getAllBibliotecarios() {
-        const user = await firebaseAuthService.verificarUsuarioLogado();
-        if (user) {
+    async getAllBibliotecarios(authJWT) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
             let bibliotecarios = await firestoreServices.getAllFromDB(dbname);
             return responsesService.createOkResponse(bibliotecarios);
-        } else {
-            return responsesService.createUnAuthResponse();
-        }
+        })
+        .catch((error) => console.log(error))
     },
 
-    async addBibliotecario(body) {
-        const user = await firebaseAuthService.verificarUsuarioLogado();
-        if (user) {
+    async addBibliotecario(body, authJWT) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
             await firestoreServices.addToDB(body, dbname);
             return responsesService.createOkResponse({response: "criado"});
-        } else {
-            return responsesService.createUnAuthResponse();
-        }
+        })
+        .catch((error) => console.log(error))
     },
 }
 

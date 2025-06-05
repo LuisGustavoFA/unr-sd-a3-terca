@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { SignJWT, jwtVerify } from "jose";
 import { jwtSecret } from "./secrets.js"
 
@@ -27,24 +27,6 @@ const firebaseAuthService = {
                     reject(error);
                 });
         });
-    },
-
-    verificarUsuarioLogado() {
-        const auth = getAuth();
-        return new Promise((resolve) => {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    resolve(user);
-                } else {
-                    resolve(null);
-                }
-            });
-        });
-    },
-
-    logOutUsuarioLogado() {
-        const auth = getAuth();
-        return signOut(auth);
     },
 
     createJWT(payload) {
