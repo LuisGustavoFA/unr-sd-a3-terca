@@ -1,8 +1,8 @@
-import firestoreServices from '../services/firestore.js';
 import responsesService from '../services/responses.js';
 import firebaseAuthService from '../services/fireauth.js';
+import oracledb from '../services/oracledb.js';
 
-const dbname = "livros";
+const dbname = "livros_livro";
 
 const livrosController = {
     async getAllLivros(authJWT) {
@@ -13,10 +13,13 @@ const livrosController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let livros = await firestoreServices.getAllFromDB(dbname);
+            let livros = await oracledb.getAllFromTable(dbname);
             return responsesService.createOkResponse(livros);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
     },
 
     async addLivro(body, authJWT) {
@@ -27,10 +30,13 @@ const livrosController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            await firestoreServices.addToDB(body, dbname);
+            await oracledb.addToTable(dbname, body);
             return responsesService.createOkResponse({response: "criado"});
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
     },
 }
 

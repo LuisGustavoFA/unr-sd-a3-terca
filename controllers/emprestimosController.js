@@ -2,10 +2,10 @@ import responsesService from '../services/responses.js';
 import firebaseAuthService from '../services/fireauth.js';
 import oracledb from '../services/oracledb.js';
 
-const dbname = "autores_autor";
+const dbname = "emprestimos_emprestimo";
 
-const autoresController = {
-    async getAllAutores(authJWT) {
+const emprestimosController = {
+    async getAllEmprestimos(authJWT) {
         let token = authJWT;
         if (token) token = token.slice(7);
         else return responsesService.createUnAuthResponse();
@@ -13,8 +13,8 @@ const autoresController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let autores = await oracledb.getAllFromTable(dbname);
-            return responsesService.createOkResponse(autores);
+            let emprestimos = await oracledb.getAllFromTable(dbname);
+            return responsesService.createOkResponse(emprestimos);
         })
         .catch((error) => {
             console.log(error)
@@ -22,7 +22,7 @@ const autoresController = {
         })
     },
 
-    async addAutor(body, authJWT) {
+    async addEmprestimo(body, authJWT) {
         let token = authJWT;
         if (token) token = token.slice(7);
         else return responsesService.createUnAuthResponse();
@@ -40,4 +40,4 @@ const autoresController = {
     },
 }
 
-export default autoresController;
+export default emprestimosController;
