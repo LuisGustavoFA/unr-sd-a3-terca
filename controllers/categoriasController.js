@@ -13,7 +13,7 @@ const categoriasController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let categorias = await oracledb(dbname);
+            let categorias = await oracledb.getAllFromTable(dbname);
             return responsesService.createOkResponse(categorias);
         })
         .catch((error) => {

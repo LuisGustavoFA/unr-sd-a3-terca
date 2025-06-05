@@ -11,7 +11,11 @@ router.post('/', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   usersController.fazerLoginFirebase(req.body.email, req.body.password)
     .then((resposta) => res.status(200).send(resposta))
-    .catch((erro) => res.status(401).send(erro))
+    .catch((erro) => {
+      console.log(erro);
+      
+      res.status(401).send(erro)
+    })
 });
 
 export default router;
