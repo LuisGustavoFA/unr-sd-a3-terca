@@ -13,6 +13,9 @@ import indexRouter from './routes/index.js';
 import clientesRouter from './routes/clientes.js';
 import bibliotecariosRouter from './routes/bibliotecarios.js';
 import categoriasRouter from './routes/categorias.js';
+import autoresRouter from './routes/autores.js';
+import editorasRouter from './routes/editoras.js';
+import livrosRouter from './routes/livros.js';
 import usersRouter from './routes/users.js';
 
 var app = express();
@@ -31,6 +34,9 @@ app.use('/', indexRouter);
 app.use('/clientes', clientesRouter);
 app.use('/bibliotecarios', bibliotecariosRouter);
 app.use('/categorias', categoriasRouter);
+app.use('/autores', autoresRouter);
+app.use('/editoras', editorasRouter);
+app.use('/livros', livrosRouter);
 app.use('/users', usersRouter);
 
 export default app;
