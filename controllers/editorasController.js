@@ -22,6 +22,15 @@ const editorasController = {
         })
     },
 
+    async getEditoraByID(id) {
+        let editora = await oracledb.getFromTableWhere(dbname, id);
+        if (editora) {
+            return responsesService.createOkResponse(editora);
+        } else {
+            return responsesService.createUnProcessableResponse("ERRO ");
+        }
+    },
+
     async addEditora(body, authJWT) {
         let token = authJWT;
         if (token) token = token.slice(7);

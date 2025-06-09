@@ -5,21 +5,13 @@ import oracledb from '../services/oracledb.js';
 const dbname = "livros_livro";
 
 const livrosController = {
-    async getAllLivros(authJWT) {
-        let token = authJWT;
-        if (token) token = token.slice(7);
-        else return responsesService.createUnAuthResponse();
-
-        return firebaseAuthService.validateJWT(token)
-        .then(async (payload) => {
-            console.log(payload)
-            let livros = await oracledb.getAllFromTable(dbname);
+    async getAllLivros() {
+        let livros = await oracledb.getAllFromTable(dbname);
+        if (livros) {
             return responsesService.createOkResponse(livros);
-        })
-        .catch((error) => {
-            console.log(error)
+        } else {
             return responsesService.createUnProcessableResponse("ERRO " + error);
-        })
+        }
     },
 
     async addLivro(body, authJWT) {

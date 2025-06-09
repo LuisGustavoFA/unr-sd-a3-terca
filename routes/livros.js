@@ -4,7 +4,7 @@ import livrosController from '../controllers/livrosController.js';
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
-  let response = await livrosController.getAllLivros(req.get("Authorization"));
+  let response = await livrosController.getAllLivros();
   res.status(response.code).json(response.payload);
 });
 

@@ -21,6 +21,15 @@ const autoresController = {
             return responsesService.createUnProcessableResponse("ERRO " + error);
         })
     },
+    
+    async getAutorByID(id) {
+        let autor = await oracledb.getFromTableWhere(dbname, id);
+        if (autor) {
+            return responsesService.createOkResponse(autor);
+        } else {
+            return responsesService.createUnProcessableResponse("ERRO ");
+        }
+    },
 
     async addAutor(body, authJWT) {
         let token = authJWT;
