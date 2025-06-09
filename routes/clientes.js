@@ -8,6 +8,11 @@ router.get('/', async function(req, res, next) {
   res.status(response.code).json(response.payload);
 });
 
+router.get('/email/:email', async function(req, res, next) {
+  let response = await clientesController.getClienteByEmail(req.get("Authorization"), req.params.email);
+  res.status(response.code).json(response.payload);
+});
+
 router.post('/', async function(req, res, next) {
   let response = await clientesController.addCliente(req.body, req.get("Authorization"));
   res.status(response.code).json(response.payload);

@@ -1,11 +1,12 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { SignJWT, jwtVerify } from "jose";
 import { jwtSecret } from "./secrets.js"
+import firebaseApp from './firebaseApp.js'
 
 const firebaseAuthService = {
     criarUsuarioComEmailSenha(email, password) {
         return new Promise((resolve, reject) => {
-            const auth = getAuth();
+            const auth = getAuth(firebaseApp);
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     resolve(userCredential);
@@ -18,7 +19,7 @@ const firebaseAuthService = {
 
     loginUsuarioComEmailSenha(email, password) {
         return new Promise((resolve, reject) => {
-            const auth = getAuth();
+            const auth = getAuth(firebaseApp);
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     resolve(userCredential);

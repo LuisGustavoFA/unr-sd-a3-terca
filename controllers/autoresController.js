@@ -1,8 +1,8 @@
-import firestoreServices from '../services/firestore.js';
 import responsesService from '../services/responses.js';
 import firebaseAuthService from '../services/fireauth.js';
+import oracledb from '../services/oracledb.js';
 
-const dbname = "autores";
+const dbname = "autores_autor";
 
 const autoresController = {
     async getAllAutores(authJWT) {
@@ -13,10 +13,22 @@ const autoresController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let autores = await firestoreServices.getAllFromDB(dbname);
+            let autores = await oracledb.getAllFromTable(dbname);
             return responsesService.createOkResponse(autores);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
+    },
+    
+    async getAutorByID(id) {
+        let autor = await oracledb.getFromTableWhere(dbname, id);
+        if (autor) {
+            return responsesService.createOkResponse(autor);
+        } else {
+            return responsesService.createUnProcessableResponse("ERRO ");
+        }
     },
 
     async addAutor(body, authJWT) {
@@ -27,10 +39,13 @@ const autoresController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            await firestoreServices.addToDB(body, dbname);
+            await oracledb.addToTable(dbname, body);
             return responsesService.createOkResponse({response: "criado"});
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
     },
 }
 

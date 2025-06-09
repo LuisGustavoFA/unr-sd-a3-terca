@@ -2,10 +2,10 @@ import responsesService from '../services/responses.js';
 import firebaseAuthService from '../services/fireauth.js';
 import oracledb from '../services/oracledb.js';
 
-const dbname = "clientes_cliente";
+const dbname = "emprestimos_emprestimo";
 
-const clientesController = {
-    async getAllClientes(authJWT) {
+const emprestimosController = {
+    async getAllEmprestimos(authJWT) {
         let token = authJWT;
         if (token) token = token.slice(7);
         else return responsesService.createUnAuthResponse();
@@ -13,8 +13,8 @@ const clientesController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let clientes = await oracledb.getAllFromTable(dbname);
-            return responsesService.createOkResponse(clientes);
+            let emprestimos = await oracledb.getAllFromTable(dbname);
+            return responsesService.createOkResponse(emprestimos);
         })
         .catch((error) => {
             console.log(error)
@@ -22,7 +22,7 @@ const clientesController = {
         })
     },
     
-    async getClienteByEmail(authJWT, email) {
+    async getAllItensEmprestimos(authJWT) {
         let token = authJWT;
         if (token) token = token.slice(7);
         else return responsesService.createUnAuthResponse();
@@ -30,8 +30,8 @@ const clientesController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let clientes = await oracledb.getFromTableWhereEmail(dbname, email);
-            return responsesService.createOkResponse(clientes);
+            let emprestimos = await oracledb.getAllFromTable("emprestimos_itememprestimo");
+            return responsesService.createOkResponse(emprestimos);
         })
         .catch((error) => {
             console.log(error)
@@ -39,7 +39,7 @@ const clientesController = {
         })
     },
 
-    async addCliente(body, authJWT) {
+    async addEmprestimo(body, authJWT) {
         let token = authJWT;
         if (token) token = token.slice(7);
         else return responsesService.createUnAuthResponse();
@@ -47,7 +47,24 @@ const clientesController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            await oracledb.addToTable(dbname, body);
+            const result = await oracledb.addToTable(dbname, body, "ID");
+            return responsesService.createOkResponse({response: "criado", id: result.id});
+        })
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
+    },
+
+    async addItemEmprestimo(body, authJWT) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+    
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
+            await oracledb.addToTable("emprestimos_itememprestimo", body);
             return responsesService.createOkResponse({response: "criado"});
         })
         .catch((error) => {
@@ -57,4 +74,4 @@ const clientesController = {
     },
 }
 
-export default clientesController;
+export default emprestimosController;

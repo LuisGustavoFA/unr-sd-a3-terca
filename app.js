@@ -16,6 +16,7 @@ import categoriasRouter from './routes/categorias.js';
 import autoresRouter from './routes/autores.js';
 import editorasRouter from './routes/editoras.js';
 import livrosRouter from './routes/livros.js';
+import emprestimosRouter from './routes/emprestimos.js';
 import usersRouter from './routes/users.js';
 
 var app = express();
@@ -37,6 +38,7 @@ app.use('/categorias', categoriasRouter);
 app.use('/autores', autoresRouter);
 app.use('/editoras', editorasRouter);
 app.use('/livros', livrosRouter);
+app.use('/emprestimos', emprestimosRouter);
 app.use('/users', usersRouter);
 
 export default app;
