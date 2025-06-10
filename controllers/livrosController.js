@@ -13,6 +13,15 @@ const livrosController = {
             return responsesService.createUnProcessableResponse("ERRO " + error);
         }
     },
+    
+    async getCategoriasFromLivro(id) {
+        let livros = await oracledb.getCatFromTable("livros_livrocategoria", id);
+        if (livros) {
+            return responsesService.createOkResponse(livros);
+        } else {
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        }
+    },
 
     async addLivro(body, authJWT) {
         let token = authJWT;

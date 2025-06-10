@@ -8,6 +8,11 @@ router.get('/', async function(req, res, next) {
   res.status(response.code).json(response.payload);
 });
 
+router.get('/:id/categorias', async function(req, res, next) {
+  let response = await livrosController.getCategoriasFromLivro(req.params.id);
+  res.status(response.code).json(response.payload);
+});
+
 router.post('/', async function(req, res, next) {
   let response = await livrosController.addLivro(req.body, req.get("Authorization"));
   res.status(response.code).json(response.payload);

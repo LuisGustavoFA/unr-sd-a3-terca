@@ -22,6 +22,15 @@ const categoriasController = {
         })
     },
 
+    async getCategoriaByID(id) {
+        let categoria = await oracledb.getFromTableWhere(dbname, id);
+        if (categoria) {
+            return responsesService.createOkResponse(categoria);
+        } else {
+            return responsesService.createUnProcessableResponse("ERRO ");
+        }
+    },
+
     async addCategoria(body, authJWT) {
         let token = authJWT;
         if (token) token = token.slice(7);

@@ -8,6 +8,11 @@ router.get('/', async function(req, res, next) {
   res.status(response.code).json(response.payload);
 });
 
+router.get('/:id', async function(req, res, next) {
+  let response = await categoriasController.getCategoriaByID(req.params.id);
+  res.status(response.code).json(response.payload);
+});
+
 router.post('/', async function(req, res, next) {
   let response = await categoriasController.addCategoria(req.body, req.get("Authorization"));
   res.status(response.code).json(response.payload);
