@@ -4,7 +4,7 @@ import autoresController from '../controllers/autoresController.js';
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
-  let response = await autoresController.getAllAutores(req.get("Authorization"));
+  let response = await autoresController.getAllAutores();
   res.status(response.code).json(response.payload);
 });
 

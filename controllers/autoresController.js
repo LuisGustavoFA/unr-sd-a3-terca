@@ -6,20 +6,12 @@ const dbname = "autores_autor";
 
 const autoresController = {
     async getAllAutores(authJWT) {
-        let token = authJWT;
-        if (token) token = token.slice(7);
-        else return responsesService.createUnAuthResponse();
-
-        return firebaseAuthService.validateJWT(token)
-        .then(async (payload) => {
-            console.log(payload)
-            let autores = await oracledb.getAllFromTable(dbname);
+        let autores = await oracledb.getAllFromTable(dbname);
+        if (autores) {
             return responsesService.createOkResponse(autores);
-        })
-        .catch((error) => {
-            console.log(error)
-            return responsesService.createUnProcessableResponse("ERRO " + error);
-        })
+        } else {
+            return responsesService.createUnProcessableResponse("ERRO ");
+        }
     },
     
     async getAutorByID(id) {

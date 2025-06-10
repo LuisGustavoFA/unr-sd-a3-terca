@@ -52,6 +52,21 @@ async function getFromTableWhereEmail(tableName, email) {
   }
 }
 
+async function getFromTableWhereAuthor(tableName, id) {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+        `SELECT * FROM ${tableName} WHERE AUTHOR_ID = :id`,
+        [id],
+        {outFormat: oracledb.OUT_FORMAT_OBJECT}
+    );
+    return result.rows;
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
 async function getCatFromTable(tableName, id) {
   let connection;
   try {
@@ -91,4 +106,4 @@ async function addToTable(tableName, data, idColumn = "ID") {
   }
 }
 
-export default { getAllFromTable, addToTable, getFromTableWhere, getFromTableWhereEmail, getCatFromTable};
+export default { getAllFromTable, addToTable, getFromTableWhere, getFromTableWhereEmail, getCatFromTable, getFromTableWhereAuthor};
