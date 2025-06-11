@@ -8,6 +8,11 @@ router.get('/', async function(req, res, next) {
   res.status(response.code).json(response.payload);
 });
 
+router.get('/:id', async function(req, res, next) {
+  let response = await livrosController.getLivroByID(req.params.id);
+  res.status(response.code).json(response.payload);
+});
+
 router.get('/autor/:id', async function(req, res, next) {
   let response = await livrosController.getAllLivrosByAuthor(req.params.id);
   res.status(response.code).json(response.payload);

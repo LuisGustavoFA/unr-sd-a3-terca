@@ -38,6 +38,58 @@ const emprestimosController = {
             return responsesService.createUnProcessableResponse("ERRO " + error);
         })
     },
+    
+    async getItensEmprestimoByID(authJWT, id) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
+            let emprestimos = await oracledb.getFromTableWhereEmprestimo("emprestimos_itememprestimo", id);
+            return responsesService.createOkResponse(emprestimos);
+        })
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
+    },
+    
+    async deleteEmprestimoByID(authJWT, id) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
+            await oracledb.deleteFromTableWhereEmprestimo("emprestimos_itememprestimo", id)
+            let emprestimos = await oracledb.deleteFromEmprestimoWhereID(dbname, id);
+            return responsesService.createOkResponse(emprestimos);
+        })
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
+    },
+
+    async getEmprestimosByClientID(authJWT, id) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
+            let emprestimos = await oracledb.getFromTableWhereClient(dbname, id);
+            return responsesService.createOkResponse(emprestimos);
+        })
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
+    },
 
     async addEmprestimo(body, authJWT) {
         let token = authJWT;

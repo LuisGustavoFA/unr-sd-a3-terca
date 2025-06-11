@@ -67,6 +67,66 @@ async function getFromTableWhereAuthor(tableName, id) {
   }
 }
 
+async function getFromTableWhereClient(tableName, id) {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+        `SELECT * FROM ${tableName} WHERE CLIENTE_ID = :id`,
+        [id],
+        {outFormat: oracledb.OUT_FORMAT_OBJECT}
+    );
+    return result.rows;
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
+async function getFromTableWhereEmprestimo(tableName, id) {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+        `SELECT * FROM ${tableName} WHERE EMPRESTIMO_ID = :id`,
+        [id],
+        {outFormat: oracledb.OUT_FORMAT_OBJECT}
+    );
+    return result.rows;
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
+async function deleteFromTableWhereEmprestimo(tableName, id) {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+        `DELETE FROM ${tableName} WHERE EMPRESTIMO_ID = :id`,
+        [id],
+        { autoCommit: true, outFormat: oracledb.OUT_FORMAT_OBJECT}
+    );
+    return result.rows;
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
+async function deleteFromEmprestimoWhereID(tableName, id) {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+        `DELETE FROM ${tableName} WHERE ID = :id`,
+        [id],
+        { autoCommit: true, outFormat: oracledb.OUT_FORMAT_OBJECT}
+    );
+    return { rowsAffected: result.rowsAffected };
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
 async function getCatFromTable(tableName, id) {
   let connection;
   try {
@@ -106,4 +166,4 @@ async function addToTable(tableName, data, idColumn = "ID") {
   }
 }
 
-export default { getAllFromTable, addToTable, getFromTableWhere, getFromTableWhereEmail, getCatFromTable, getFromTableWhereAuthor};
+export default { getAllFromTable, addToTable, getFromTableWhere, getFromTableWhereEmail, getCatFromTable, getFromTableWhereAuthor, getFromTableWhereClient, getFromTableWhereEmprestimo, deleteFromEmprestimoWhereID, deleteFromTableWhereEmprestimo};

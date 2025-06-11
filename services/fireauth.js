@@ -36,7 +36,7 @@ const firebaseAuthService = {
             .setIssuedAt()
             .setSubject("User API Login")
             .setProtectedHeader({alg: "HS256"})
-            .setExpirationTime("3600s")
+            .setExpirationTime("36000s")
             .sign(jwtSecret)
             .then((jwt) => resolve(jwt))
             .catch((error) => reject(error))

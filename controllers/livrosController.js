@@ -14,6 +14,15 @@ const livrosController = {
         }
     },
     
+    async getLivroByID(id) {
+        let livros = await oracledb.getFromTableWhere(dbname, id);
+        if (livros) {
+            return responsesService.createOkResponse(livros);
+        } else {
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        }
+    },
+
     async getAllLivrosByAuthor(id) {
         let livros = await oracledb.getFromTableWhereAuthor(dbname, id);
         if (livros) {
