@@ -55,6 +55,26 @@ const clientesController = {
             return responsesService.createUnProcessableResponse("ERRO " + error);
         })
     },
+
+    async patchClienteByID(authJWT, id, body) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+
+        let field = body.field;
+        let value = body.value;
+    
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
+            await oracledb.patchFromTableWhereID(dbname, id, field, value);
+            return responsesService.createOkResponse({response: "alterado"});
+        })
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
+    },
 }
 
 export default clientesController;

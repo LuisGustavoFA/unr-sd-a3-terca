@@ -18,4 +18,9 @@ router.post('/', async function(req, res, next) {
   res.status(response.code).json(response.payload);
 });
 
+router.patch('/:id', async function(req, res, next) {
+  let response = await clientesController.patchClienteByID(req.get("Authorization"), req.params.id, req.body);
+  res.status(response.code).json(response.payload);
+});
+
 export default router;

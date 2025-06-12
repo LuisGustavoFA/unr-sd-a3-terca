@@ -142,6 +142,21 @@ async function getCatFromTable(tableName, id) {
   }
 }
 
+async function patchFromTableWhereID(tableName, id, field, value) {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+        `UPDATE ${tableName} SET ${field} = :value WHERE ID = :id`,
+        {value: value, id: id},
+        { autoCommit: true }
+    );
+    return result.rowsAffected;
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
 async function addToTable(tableName, data, idColumn = "ID") {
   let connection;
   try {
@@ -166,4 +181,4 @@ async function addToTable(tableName, data, idColumn = "ID") {
   }
 }
 
-export default { getAllFromTable, addToTable, getFromTableWhere, getFromTableWhereEmail, getCatFromTable, getFromTableWhereAuthor, getFromTableWhereClient, getFromTableWhereEmprestimo, deleteFromEmprestimoWhereID, deleteFromTableWhereEmprestimo};
+export default { getAllFromTable, addToTable, getFromTableWhere, getFromTableWhereEmail, getCatFromTable, getFromTableWhereAuthor, getFromTableWhereClient, getFromTableWhereEmprestimo, deleteFromEmprestimoWhereID, deleteFromTableWhereEmprestimo, patchFromTableWhereID};
