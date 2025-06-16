@@ -15,7 +15,7 @@ const livrosController = {
     },
     
     async getLivroByID(id) {
-        let livros = await oracledb.getFromTableWhere(dbname, id);
+        let livros = await oracledb.getFromTableWhere(dbname, "ID", id);
         if (livros) {
             return responsesService.createOkResponse(livros);
         } else {
@@ -24,7 +24,7 @@ const livrosController = {
     },
 
     async getAllLivrosByAuthor(id) {
-        let livros = await oracledb.getFromTableWhereAuthor(dbname, id);
+        let livros = await oracledb.getAllFromTableWhere(dbname, "AUTHOR_ID", id);
         if (livros) {
             return responsesService.createOkResponse(livros);
         } else {
@@ -33,7 +33,7 @@ const livrosController = {
     },
 
     async getCategoriasFromLivro(id) {
-        let livros = await oracledb.getCatFromTable("livros_livrocategoria", id);
+        let livros = await oracledb.getAllFromTableWhere("livros_livrocategoria", "LIVRO_ID", id);
         if (livros) {
             return responsesService.createOkResponse(livros);
         } else {

@@ -23,7 +23,7 @@ const editorasController = {
     },
 
     async getEditoraByID(id) {
-        let editora = await oracledb.getFromTableWhere(dbname, id);
+        let editora = await oracledb.getFromTableWhere(dbname, "ID", id);
         if (editora) {
             return responsesService.createOkResponse(editora);
         } else {

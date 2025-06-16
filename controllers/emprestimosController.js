@@ -47,7 +47,7 @@ const emprestimosController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let emprestimos = await oracledb.getFromTableWhereEmprestimo("emprestimos_itememprestimo", id);
+            let emprestimos = await oracledb.getAllFromTableWhere("emprestimos_itememprestimo", "EMPRESTIMO_ID", id);
             return responsesService.createOkResponse(emprestimos);
         })
         .catch((error) => {
@@ -64,8 +64,8 @@ const emprestimosController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            await oracledb.deleteFromTableWhereEmprestimo("emprestimos_itememprestimo", id)
-            let emprestimos = await oracledb.deleteFromEmprestimoWhereID(dbname, id);
+            await oracledb.deleteFromTableWhere("emprestimos_itememprestimo", "EMPRESTIMO_ID", id)
+            let emprestimos = await oracledb.deleteFromTableWhere(dbname, "ID", id);
             return responsesService.createOkResponse(emprestimos);
         })
         .catch((error) => {
@@ -82,7 +82,7 @@ const emprestimosController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let emprestimos = await oracledb.getFromTableWhereClient(dbname, id);
+            let emprestimos = await oracledb.getAllFromTableWhere(dbname, "CLIENTE_ID", id);
             return responsesService.createOkResponse(emprestimos);
         })
         .catch((error) => {

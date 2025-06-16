@@ -22,12 +22,12 @@ async function getAllFromTable(tableName) {
   }
 }
 
-async function getFromTableWhere(tableName, id) {
+async function getFromTableWhere(tableName, field, id) {
   let connection;
   try {
     connection = await oracledb.getConnection(dbConfig);
     const result = await connection.execute(
-        `SELECT * FROM ${tableName} WHERE ID = :id`,
+        `SELECT * FROM ${tableName} WHERE ${field} = :id`,
         [id],
         {outFormat: oracledb.OUT_FORMAT_OBJECT}
     );
@@ -37,27 +37,12 @@ async function getFromTableWhere(tableName, id) {
   }
 }
 
-async function getFromTableWhereEmail(tableName, email) {
+async function getAllFromTableWhere(tableName, field, id) {
   let connection;
   try {
     connection = await oracledb.getConnection(dbConfig);
     const result = await connection.execute(
-        `SELECT * FROM ${tableName} WHERE EMAIL = :email`,
-        [email],
-        {outFormat: oracledb.OUT_FORMAT_OBJECT}
-    );
-    return result.rows[0];
-  } finally {
-    if (connection) await connection.close();
-  }
-}
-
-async function getFromTableWhereAuthor(tableName, id) {
-  let connection;
-  try {
-    connection = await oracledb.getConnection(dbConfig);
-    const result = await connection.execute(
-        `SELECT * FROM ${tableName} WHERE AUTHOR_ID = :id`,
+        `SELECT * FROM ${tableName} WHERE ${field} = :id`,
         [id],
         {outFormat: oracledb.OUT_FORMAT_OBJECT}
     );
@@ -67,74 +52,14 @@ async function getFromTableWhereAuthor(tableName, id) {
   }
 }
 
-async function getFromTableWhereClient(tableName, id) {
+async function deleteFromTableWhere(tableName, field, id) {
   let connection;
   try {
     connection = await oracledb.getConnection(dbConfig);
     const result = await connection.execute(
-        `SELECT * FROM ${tableName} WHERE CLIENTE_ID = :id`,
-        [id],
-        {outFormat: oracledb.OUT_FORMAT_OBJECT}
-    );
-    return result.rows;
-  } finally {
-    if (connection) await connection.close();
-  }
-}
-
-async function getFromTableWhereEmprestimo(tableName, id) {
-  let connection;
-  try {
-    connection = await oracledb.getConnection(dbConfig);
-    const result = await connection.execute(
-        `SELECT * FROM ${tableName} WHERE EMPRESTIMO_ID = :id`,
-        [id],
-        {outFormat: oracledb.OUT_FORMAT_OBJECT}
-    );
-    return result.rows;
-  } finally {
-    if (connection) await connection.close();
-  }
-}
-
-async function deleteFromTableWhereEmprestimo(tableName, id) {
-  let connection;
-  try {
-    connection = await oracledb.getConnection(dbConfig);
-    const result = await connection.execute(
-        `DELETE FROM ${tableName} WHERE EMPRESTIMO_ID = :id`,
+        `DELETE FROM ${tableName} WHERE ${field} = :id`,
         [id],
         { autoCommit: true, outFormat: oracledb.OUT_FORMAT_OBJECT}
-    );
-    return result.rows;
-  } finally {
-    if (connection) await connection.close();
-  }
-}
-
-async function deleteFromEmprestimoWhereID(tableName, id) {
-  let connection;
-  try {
-    connection = await oracledb.getConnection(dbConfig);
-    const result = await connection.execute(
-        `DELETE FROM ${tableName} WHERE ID = :id`,
-        [id],
-        { autoCommit: true, outFormat: oracledb.OUT_FORMAT_OBJECT}
-    );
-    return { rowsAffected: result.rowsAffected };
-  } finally {
-    if (connection) await connection.close();
-  }
-}
-
-async function getCatFromTable(tableName, id) {
-  let connection;
-  try {
-    connection = await oracledb.getConnection(dbConfig);
-    const result = await connection.execute(
-        `SELECT * FROM ${tableName} WHERE LIVRO_ID = :id`,
-        [id],
-        {outFormat: oracledb.OUT_FORMAT_OBJECT}
     );
     return result.rows;
   } finally {
@@ -181,4 +106,4 @@ async function addToTable(tableName, data, idColumn = "ID") {
   }
 }
 
-export default { getAllFromTable, addToTable, getFromTableWhere, getFromTableWhereEmail, getCatFromTable, getFromTableWhereAuthor, getFromTableWhereClient, getFromTableWhereEmprestimo, deleteFromEmprestimoWhereID, deleteFromTableWhereEmprestimo, patchFromTableWhereID};
+export default { getAllFromTable, addToTable, getFromTableWhere, getAllFromTableWhere, deleteFromTableWhere, patchFromTableWhereID};
