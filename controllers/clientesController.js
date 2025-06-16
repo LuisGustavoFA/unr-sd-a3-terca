@@ -30,7 +30,7 @@ const clientesController = {
         return firebaseAuthService.validateJWT(token)
         .then(async (payload) => {
             console.log(payload)
-            let clientes = await oracledb.getFromTableWhereEmail(dbname, email);
+            let clientes = await oracledb.getFromTableWhere(dbname, "EMAIL", email);
             return responsesService.createOkResponse(clientes);
         })
         .catch((error) => {

@@ -23,7 +23,7 @@ const categoriasController = {
     },
 
     async getCategoriaByID(id) {
-        let categoria = await oracledb.getFromTableWhere(dbname, id);
+        let categoria = await oracledb.getFromTableWhere(dbname, "ID", id);
         if (categoria) {
             return responsesService.createOkResponse(categoria);
         } else {

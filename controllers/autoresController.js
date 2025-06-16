@@ -15,7 +15,7 @@ const autoresController = {
     },
     
     async getAutorByID(id) {
-        let autor = await oracledb.getFromTableWhere(dbname, id);
+        let autor = await oracledb.getFromTableWhere(dbname, "ID", id);
         if (autor) {
             return responsesService.createOkResponse(autor);
         } else {
