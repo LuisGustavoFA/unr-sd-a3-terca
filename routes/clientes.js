@@ -23,4 +23,9 @@ router.patch('/:id', async function(req, res, next) {
   res.status(response.code).json(response.payload);
 });
 
+router.delete('/:id', async function(req, res, next) {
+  let response = await clientesController.deleteClienteByID(req.get("Authorization"), req.params.id);
+  res.status(response.code).json(response.payload);
+});
+
 export default router;
