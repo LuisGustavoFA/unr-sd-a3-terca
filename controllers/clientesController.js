@@ -55,6 +55,23 @@ const clientesController = {
             return responsesService.createUnProcessableResponse("ERRO " + error);
         })
     },
+    
+    async deleteClienteByID(authJWT, id) {
+        let token = authJWT;
+        if (token) token = token.slice(7);
+        else return responsesService.createUnAuthResponse();
+
+        return firebaseAuthService.validateJWT(token)
+        .then(async (payload) => {
+            console.log(payload)
+            await oracledb.deleteFromTableWhere(dbname, "ID", id);
+            return responsesService.createOkResponse({response: "deletado"});
+        })
+        .catch((error) => {
+            console.log(error)
+            return responsesService.createUnProcessableResponse("ERRO " + error);
+        })
+    },
 
     async patchClienteByID(authJWT, id, body) {
         let token = authJWT;
