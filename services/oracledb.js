@@ -1,5 +1,5 @@
 import oracledb from 'oracledb';
-import { oracleSecrets } from './secrets.js';
+import { oracleSecrets } from '../secrets.js';
 
 const dbConfig = {
   user: oracleSecrets.user,
