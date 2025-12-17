@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { SignJWT, jwtVerify } from "jose";
-import { jwtSecret } from "./secrets.js"
+import { jwtSecret } from "../secrets.js"
 import firebaseApp from './firebaseApp.js'
 
 const firebaseAuthService = {
