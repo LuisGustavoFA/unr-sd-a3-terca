@@ -21,9 +21,7 @@ import usersRouter from './routes/users.js';
 
 var app = express();
 
-app.use(cors({
-    origin: 'http://localhost:9000'
-}));
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
